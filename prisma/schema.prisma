@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model ShoppingList {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  items     Item[]
+  createdAt DateTime @default(now())
+}
+
+type Item {
+  name     String
+  category String
+  quantity Int
+}
+
+model Category {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+}
+
+// Models will be added here 
