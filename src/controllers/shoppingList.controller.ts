@@ -26,7 +26,8 @@ export const getShoppingListById = async (req: Request, res: Response) => {
         const { id } = req.params;
         const list = await ShoppingListService.getShoppingListById(id);
         if (!list) {
-            return res.status(404).json({ message: 'Shopping list not found' });
+            res.status(404).json({ message: 'Shopping list not found' });
+            return;
         }
         res.json(list);
     } catch (error) {
