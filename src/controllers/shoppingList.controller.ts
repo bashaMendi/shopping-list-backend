@@ -53,4 +53,45 @@ export const deleteShoppingList = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({ message: 'Failed to delete shopping list', error });
     }
+};
+
+// New controller functions for individual item management
+export const addItemToShoppingList = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+        const newItem = await ShoppingListService.addItemToShoppingList(id, req.body);
+        res.status(201).json(newItem);
+    } catch (error) {
+        res.status(400).json({ message: 'Failed to add item to shopping list', error });
+    }
+};
+
+export const updateShoppingListItem = async (req: Request, res: Response) => {
+    try {
+        const { itemId } = req.params;
+        const updatedItem = await ShoppingListService.updateShoppingListItem(itemId, req.body);
+        res.json(updatedItem);
+    } catch (error) {
+        res.status(400).json({ message: 'Failed to update shopping list item', error });
+    }
+};
+
+export const deleteShoppingListItem = async (req: Request, res: Response) => {
+    try {
+        const { itemId } = req.params;
+        await ShoppingListService.deleteShoppingListItem(itemId);
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to delete shopping list item', error });
+    }
+};
+
+export const toggleItemCompletion = async (req: Request, res: Response) => {
+    try {
+        const { itemId } = req.params;
+        const updatedItem = await ShoppingListService.toggleItemCompletion(itemId);
+        res.json(updatedItem);
+    } catch (error) {
+        res.status(400).json({ message: 'Failed to toggle item completion', error });
+    }
 }; 

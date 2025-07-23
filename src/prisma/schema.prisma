@@ -13,14 +13,22 @@ datasource db {
 model ShoppingList {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  items     Item[]
+  items     ShoppingListItem[]
   createdAt DateTime @default(now())
 }
 
-type Item {
-  name     String
-  category String
-  quantity Int
+model ShoppingListItem {
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  quantity       Int
+  category       String
+  isCompleted    Boolean      @default(false)
+  shoppingList   ShoppingList @relation(fields: [shoppingListId], references: [id], onDelete: Cascade)
+  shoppingListId String       @db.ObjectId
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([shoppingListId])
 }
 
 model Category {
